@@ -39,7 +39,7 @@ jobs:
       - name: Compare versions
         id: ver_check
         run: |
-          if [[ steps.latest_rel.outputs.current != steps.build_rel.outputs.previous ]]; then
+          if [[ ${{ steps.latest_rel.outputs.current }} != ${{ steps.build_rel.outputs.previous }} ]]; then
             echo "Versions do not match, a new image will be built"
             echo "build_new=true" >> $GITHUB_OUTPUT
           else
