@@ -64,7 +64,7 @@ jobs:
       - name: Build Image
         run: |
           cd ~/vyos-build
-          docker run --rm -it --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:${{ needs.check-release.outputs.curr_ver }} \
+          docker run --rm -i --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:${{ needs.check-release.outputs.curr_ver }} \
            /bin/bash -c "./configure --architecture amd64 --build-by 'vyos-autobuild@dustyservers.com' && sudo make iso"
 
       - name: List Files
