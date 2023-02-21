@@ -16,6 +16,7 @@ jobs:
           cd build
           git clone https://github.com/vyos/vyos-build.git
           cd vyos-build
+          pwd
       - name: Compare Versions
         run: |
           currentVer=$(git describe --tags $(git rev-list --tags --max-count=1))
