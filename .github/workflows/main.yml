@@ -10,14 +10,15 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
+      - name: Clone this repo
+        uses: actions/checkout@v3
       - name: Clone vyos-build repo
         run: |
-          mkdir build
-          cd build
+          cd ~
           git clone https://github.com/vyos/vyos-build.git
-          cd vyos-build
           pwd
       - name: Compare Versions
         run: |
+          cd ~/vyos-build
           currentVer=$(git describe --tags $(git rev-list --tags --max-count=1))
           echo "Current release determined as $currentVer"
