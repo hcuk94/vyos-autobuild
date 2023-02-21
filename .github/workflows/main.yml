@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       build_new: ${{ steps.ver_check.outputs.build_new }}
+      curr_ver: ${{ steps.latest_rel.outputs.current }}
     steps:
       - name: Clone hcuk94/vyos-autobuild
         uses: actions/checkout@v3
@@ -53,4 +54,4 @@ jobs:
     if: needs.check-release.outputs.build_new == 'true'
     steps:
       - name: Test a thing
-        run: echo "nice"
+        run: echo "I will build version ${{ needs.check-release.outputs.curr_ver }}"
