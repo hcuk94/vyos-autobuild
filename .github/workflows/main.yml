@@ -29,7 +29,7 @@ jobs:
 
       - name: Find previous build version
         run: |
-          prevVer=$(cat ~/vyos-autobuild/vyos-autobuild/release.txt)
+          prevVer=$(cat ~/work/vyos-autobuild/vyos-autobuild/release.txt)
           echo "Previously built version determined as $prevVer"
           echo "previous=$prevVer" >> $GITHUB_OUTPUT
 
