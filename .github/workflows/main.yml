@@ -21,6 +21,7 @@ jobs:
           git clone https://github.com/vyos/vyos-build.git
 
       - name: Find latest release version
+        id: latest_rel
         run: |
           cd ~/vyos-build
           currentVer=$(git describe --tags $(git rev-list --tags --max-count=1))
@@ -28,6 +29,7 @@ jobs:
           echo "current=$currentVer" >> $GITHUB_OUTPUT
 
       - name: Find previous build version
+        id: build_rel
         run: |
           prevVer=$(cat ~/work/vyos-autobuild/vyos-autobuild/release.txt)
           echo "Previously built version determined as $prevVer"
@@ -36,7 +38,7 @@ jobs:
       - name: Compare versions
         id: ver_check
         run: |
-          if [[ $currentVer != $prevVer ]]; then
+          if [[ steps.latest_rel.outputs.current != steps.build_rel.outputs.previous ]]; then
             echo "Versions do not match, a new image will be built"
             echo "build_new=true" >> $GITHUB_OUTPUT
           else
