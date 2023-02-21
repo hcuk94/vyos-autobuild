@@ -10,7 +10,7 @@ jobs:
   check-release:
     runs-on: ubuntu-latest
     outputs:
-      current_ver: ${{ steps.release.outputs.version }}
+      build_new: ${{ steps.ver_check.outputs.build_new }}
     steps:
       - name: Clone hcuk94/vyos-autobuild
         uses: actions/checkout@v3
@@ -20,19 +20,33 @@ jobs:
           cd ~
           git clone https://github.com/vyos/vyos-build.git
 
-      - name: Find latest release
-        id: release
+      - name: Find latest release version
         run: |
           cd ~/vyos-build
           currentVer=$(git describe --tags $(git rev-list --tags --max-count=1))
           echo "Current release determined as $currentVer"
-          echo "version=$currentVer" >> $GITHUB_OUTPUT
+          echo "current=$currentVer" >> $GITHUB_OUTPUT
+
+      - name: Find previous build version
+        run: |
+          prevVer=$(cat ~/vyos-autobuild/vyos-autobuild/release.txt)
+          echo "Previously built version determined as $prevVer"
+          echo "previous=$prevVer" >> $GITHUB_OUTPUT
+
+      - name: Compare versions
+        id: ver_check
+        run: |
+          if [[ $currentVer != $prevVer ]]; then
+            echo "build_new=true" >> $GITHUB_OUTPUT
+          else
+            echo "build_new=false" >> $GITHUB_OUTPUT
+          fi
 
 
   build-iso:
     runs-on: ubuntu-latest
     needs: check-release
-    if: needs.check-release.outputs.current_ver == '1.3.2'
+    if: needs.check-release.outputs.build_new == true
     steps:
       - name: Test a thing
         run: echo "nice"
