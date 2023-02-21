@@ -37,8 +37,10 @@ jobs:
         id: ver_check
         run: |
           if [[ $currentVer != $prevVer ]]; then
+            echo "Versions do not match, a new image will be built"
             echo "build_new=true" >> $GITHUB_OUTPUT
           else
+            echo "Versions match, we will not build"
             echo "build_new=false" >> $GITHUB_OUTPUT
           fi
 
