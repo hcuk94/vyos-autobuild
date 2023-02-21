@@ -3,6 +3,8 @@ name: Check & Build
 on:
   schedule:
     - cron: '33 * * * *'
+  push:
+    branches: [ "main" ]
 
 jobs:
   check:
