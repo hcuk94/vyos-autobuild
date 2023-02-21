@@ -19,7 +19,7 @@ jobs:
       - name: Clone vyos/vyos-build
         run: |
           cd ~
-          git clone --depth 1 https://github.com/vyos/vyos-build.git
+          git clone https://github.com/vyos/vyos-build.git
 
       - name: Find latest release version
         id: latest_rel
