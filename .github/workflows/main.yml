@@ -32,4 +32,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test a thing
-          run: echo "nice"
+        run: echo "nice"
