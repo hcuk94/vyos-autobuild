@@ -51,6 +51,8 @@ jobs:
   build-iso:
     runs-on: ubuntu-latest
     needs: check-release
+    permissions:
+      contents: write
     if: needs.check-release.outputs.build_new == 'true'
     steps:
       - name: Initialise
