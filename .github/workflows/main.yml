@@ -61,7 +61,7 @@ jobs:
         run: echo "sagitta" > $BRANCH_TO_BUILD
       - name: Set output variable
         id: set_output
-        echo "branch_to_build=$BRANCH_TO_BUILD" >> $GITHUB_OUTPUT
+        run: echo "branch_to_build=$BRANCH_TO_BUILD" >> $GITHUB_OUTPUT
 
   build-iso:
     runs-on: ubuntu-latest
