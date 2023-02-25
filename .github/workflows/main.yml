@@ -103,8 +103,11 @@ jobs:
       #     name: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
       #     files: |
       #       ../../../vyos-build/build/*.iso
+      
+      - name: Clone hcuk94/vyos-autobuild
+        uses: actions/checkout@v3
 
-      - name: Update last built version
+      - name: Update and commit last built version
         run: |
           echo ${{ needs.check-release.outputs.curr_ver }} > release.txt
           git add release.txt
