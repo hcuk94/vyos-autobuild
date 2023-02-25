@@ -80,5 +80,5 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           tag: "${{ needs.check-release.outputs.curr_ver }}"
           overwrite: true
-          title: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
-          file: ~/vyos-build/build/*.iso
+          release_name: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
+          file: ~/vyos-build/build/live-image-amd64.hybrid.iso
