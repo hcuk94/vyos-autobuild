@@ -81,5 +81,6 @@ jobs:
           tag_name: "${{ needs.check-release.outputs.curr_ver }}"
           prerelease: false
           name: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
+          working-directory: ~/vyos-build
           files: |
-            ~/vyos-build/build/live-image-amd64.hybrid.iso
+            ./build/*.iso
