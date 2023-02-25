@@ -1,7 +1,7 @@
 name: VyOS Autobuild Robot
 
 on:
- schedule:
+  schedule:
    - cron: '00 04 * * *'
   push:
     branches: [ "main" ]
