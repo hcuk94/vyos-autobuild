@@ -110,6 +110,8 @@ jobs:
       - name: Update and commit last built version
         run: |
           echo ${{ needs.check-release.outputs.curr_ver }} > release.txt
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
           git add release.txt
           git commit -m "Update latest built version"
           git push
