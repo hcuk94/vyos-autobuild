@@ -70,7 +70,9 @@ jobs:
            /bin/bash -c "./configure --architecture amd64 --build-by 'vyos-autobuild@dustyservers.com' && sudo make iso"
 
       - name: List Files
-        run: ls -lh ~/vyos-build/build/
+        run: |
+          cd ~/vyos-build/build
+          ls -lh
 
       - name: Create Release
         uses: "marvinpinto/action-automatic-releases@latest"
@@ -80,4 +82,4 @@ jobs:
           prerelease: false
           title: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
           files: |
-            ~/vyos-build/build/*.iso
+            ./*.iso
