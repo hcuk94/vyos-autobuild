@@ -76,11 +76,10 @@ jobs:
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
-        working-directory: ~/vyos-build
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
           tag_name: "${{ needs.check-release.outputs.curr_ver }}"
           prerelease: false
           name: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
           files: |
-            ./build/*.iso
+            ../../../build/*.iso
