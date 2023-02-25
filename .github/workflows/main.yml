@@ -71,7 +71,7 @@ jobs:
     if: needs.check-release.outputs.build_new == 'true'
     steps:
       - name: Initialise
-        run: echo "I will build version ${{ needs.check-release.outputs.curr_ver }} from the ${{ needs.map-version.outputs.branch_to_build }} branch"
+        run: echo "I will build version ${{ needs.check-release.outputs.curr_ver }} from the ${{ needs.map-version.outputs.vyos_branch }} branch"
       
       - name: Clone vyos/vyos-build
         run: |
