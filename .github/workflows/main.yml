@@ -88,21 +88,21 @@ jobs:
           cd ~
           git clone --depth 1 --single-branch --branch ${{ needs.map-version.outputs.vyos_branch }} https://github.com/vyos/vyos-build.git
       
-      # - name: Build Image
-      #   run: |
-      #     cd ~/vyos-build
-      #     docker run --rm -i --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:${{ needs.map-version.outputs.vyos_branch }} \
-      #      /bin/bash -c "./configure --architecture amd64 --build-by 'vyos-autobuild@dustyservers.com' && sudo make iso"
+      - name: Build Image
+        run: |
+          cd ~/vyos-build
+          docker run --rm -i --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:${{ needs.map-version.outputs.vyos_branch }} \
+           /bin/bash -c "./configure --architecture amd64 --build-by 'vyos-autobuild@dustyservers.com' && sudo make iso"
 
-      # - name: Create Release
-      #   uses: softprops/action-gh-release@v1
-      #   with:
-      #     token: "${{ secrets.GITHUB_TOKEN }}"
-      #     tag_name: "${{ needs.check-release.outputs.curr_ver }}"
-      #     prerelease: false
-      #     name: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
-      #     files: |
-      #       ../../../vyos-build/build/*.iso
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          tag_name: "${{ needs.check-release.outputs.curr_ver }}"
+          prerelease: false
+          name: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
+          files: |
+            ../../../vyos-build/build/*.iso
       
 
 
