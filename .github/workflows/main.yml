@@ -82,4 +82,4 @@ jobs:
           prerelease: false
           name: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
           files: |
-            ../../../build/*.iso
+            ../../../vyos-build/build/*.iso
