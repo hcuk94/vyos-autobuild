@@ -75,11 +75,11 @@ jobs:
           ls -lh
 
       - name: Create Release
-        uses: "marvinpinto/action-automatic-releases@latest"
+        uses: softprops/action-gh-release@v1
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "${{ needs.check-release.outputs.curr_ver }}"
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          tag_name: "${{ needs.check-release.outputs.curr_ver }}"
           prerelease: false
-          title: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
+          name: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
           files: |
-            /home/runner/work/vyos-autobuild/vyos-autobuild/build/vyos-build/build/live-image-amd64.hybrid.iso
+            ~/vyos-build/build/live-image-amd64.hybrid.iso
