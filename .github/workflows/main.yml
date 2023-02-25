@@ -104,6 +104,14 @@ jobs:
       #     files: |
       #       ../../../vyos-build/build/*.iso
       
+
+
+  update-release-file:
+    # This updates the release.txt file used to track the latest version built by this bot.
+    runs-on: ubuntu-latest
+    needs: [check-release, map-version]
+    if: needs.check-release.outputs.build_new == 'true'
+    steps:
       - name: Clone hcuk94/vyos-autobuild
         uses: actions/checkout@v3
 
