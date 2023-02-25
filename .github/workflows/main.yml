@@ -52,10 +52,10 @@ jobs:
     needs: check-release
     steps:
       - name: Map 1.3.x to equuleus
-        if: contains(needs.check-release.outputs.curr_ver, "1.3.")
+        if: startsWith(needs.check-release.outputs.curr_ver, '1.3.')
         run: echo "equuleus!"
       - name: Map 1.4.x to sagitta
-        if: contains(needs.check-release.outputs.curr_ver, "1.4.")
+        if: startsWith(needs.check-release.outputs.curr_ver, '1.4.')
         run: echo "sagitta!""
 
   build-iso:
