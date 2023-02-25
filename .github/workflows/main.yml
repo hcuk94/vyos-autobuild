@@ -75,10 +75,11 @@ jobs:
           ls -lh
 
       - name: Create Release
-        uses: svenstaro/upload-release-action@v2
+        uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          tag: "${{ needs.check-release.outputs.curr_ver }}"
-          overwrite: true
-          release_name: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
-          file: ~/vyos-build/build/live-image-amd64.hybrid.iso
+          automatic_release_tag: "${{ needs.check-release.outputs.curr_ver }}"
+          prerelease: false
+          title: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
+          files: |
+            ~/vyos-build/build/live-image-amd64.hybrid.iso
