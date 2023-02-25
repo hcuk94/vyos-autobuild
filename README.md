@@ -1,4 +1,7 @@
 # vyos-autobuild
+
+![VyOS Autobuild Robot Workflow Status](https://github.com/hcuk94/vyos-autobuild/actions/workflows/main.yml/badge.svg)
+
 Automation-only repo which uses GitHub Actions to build the latest stable release of VyOS each time a new version is released to the official VyOS repo.
 
 It works as follows:
