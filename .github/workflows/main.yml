@@ -29,7 +29,7 @@ jobs:
           echo "Current release determined as $currentVer"
           echo "current=$currentVer" >> $GITHUB_OUTPUT
 
-      - name: Find previous build version
+      - name: Find previously built version
         id: build_rel
         run: |
           prevVer=$(cat ~/work/vyos-autobuild/vyos-autobuild/release.txt)
@@ -47,6 +47,13 @@ jobs:
             echo "build_new=false" >> $GITHUB_OUTPUT
           fi
 
+  map-version:
+    runs-on: ubuntu-latest
+    needs: check-release
+    steps:
+      - name: Map 1.3.x to equuleus
+        if: ${needs.check-release.outputs.build_new:0:2} == 1.3
+        run: echo "equuleus!"
 
   build-iso:
     runs-on: ubuntu-latest
@@ -63,18 +70,18 @@ jobs:
           cd ~
           git clone --depth 1 --single-branch --branch equuleus https://github.com/vyos/vyos-build.git
       
-      - name: Build Image
-        run: |
-          cd ~/vyos-build
-          docker run --rm -i --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:equuleus \
-           /bin/bash -c "./configure --architecture amd64 --build-by 'vyos-autobuild@dustyservers.com' && sudo make iso"
+      # - name: Build Image
+      #   run: |
+      #     cd ~/vyos-build
+      #     docker run --rm -i --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:equuleus \
+      #      /bin/bash -c "./configure --architecture amd64 --build-by 'vyos-autobuild@dustyservers.com' && sudo make iso"
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          token: "${{ secrets.GITHUB_TOKEN }}"
-          tag_name: "${{ needs.check-release.outputs.curr_ver }}"
-          prerelease: false
-          name: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
-          files: |
-            ../../../vyos-build/build/*.iso
+      # - name: Create Release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     token: "${{ secrets.GITHUB_TOKEN }}"
+      #     tag_name: "${{ needs.check-release.outputs.curr_ver }}"
+      #     prerelease: false
+      #     name: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
+      #     files: |
+      #       ../../../vyos-build/build/*.iso
