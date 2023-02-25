@@ -82,4 +82,4 @@ jobs:
           prerelease: false
           title: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
           files: |
-            ~/vyos-build/build/live-image-amd64.hybrid.iso
+            /home/runner/work/vyos-autobuild/vyos-autobuild/build/vyos-build/build/live-image-amd64.hybrid.iso
