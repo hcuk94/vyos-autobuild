@@ -75,11 +75,10 @@ jobs:
           ls -lh
 
       - name: Create Release
-        uses: "marvinpinto/action-automatic-releases@latest"
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "${{ needs.check-release.outputs.curr_ver }}"
-          prerelease: false
+          tag: "${{ needs.check-release.outputs.curr_ver }}"
+          overwrite: true
           title: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
-          files: |
-            ./*.iso
+          file: ~/vyos-build/build/*.iso
