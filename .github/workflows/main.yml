@@ -49,6 +49,7 @@ jobs:
             echo "build_new=false" >> $GITHUB_OUTPUT
           fi
 
+
   map-version:
     # VyOS' recommendation is to build from the active branch rather than the release tag; it will
     # still be considered stable/LTS, but will include any recent bugfixes.
@@ -103,13 +104,14 @@ jobs:
           name: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
           files: |
             ../../../vyos-build/build/*.iso
-      
 
 
   update-release-file:
     # This updates the release.txt file used to track the latest version built by this bot.
     runs-on: ubuntu-latest
     needs: [check-release, map-version, build-iso]
+    permissions:
+      contents: write
     if: needs.check-release.outputs.build_new == 'true'
     steps:
       - name: Clone hcuk94/vyos-autobuild
