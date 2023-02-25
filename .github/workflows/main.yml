@@ -71,9 +71,7 @@ jobs:
         run: echo "BRANCH_TO_BUILD=sagitta" >> $GITHUB_ENV
       - name: Set output variable
         id: set_output
-        run: |
-          echo $BRANCH_TO_BUILD
-          echo "branch_to_build=$BRANCH_TO_BUILD" >> $GITHUB_OUTPUT
+        run: echo "branch_to_build=$BRANCH_TO_BUILD" >> $GITHUB_OUTPUT
 
 
   build-iso:
