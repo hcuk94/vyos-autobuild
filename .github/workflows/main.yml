@@ -8,6 +8,8 @@ on:
 
 jobs:
   check-release:
+    # Looks for the most recent release tag on the official vyos-build repo, and
+    # compares it to the most recently built version in this repo.
     runs-on: ubuntu-latest
     outputs:
       build_new: ${{ steps.ver_check.outputs.build_new }}
@@ -48,6 +50,10 @@ jobs:
           fi
 
   map-version:
+    # VyOS' recommendation is to build from the active branch rather than the release tag; it will
+    # still be considered stable/LTS, but will include any recent bugfixes.
+    # This job maps version numbers to branch names, and must be manually updated as VyOS announce
+    # future versions.
     runs-on: ubuntu-latest
     needs: check-release
     outputs:
@@ -67,6 +73,7 @@ jobs:
 
 
   build-iso:
+    # The main build job, which runs if the latest version doesn't match the previous build.
     runs-on: ubuntu-latest
     needs: [check-release, map-version]
     permissions:
@@ -79,12 +86,12 @@ jobs:
       - name: Clone vyos/vyos-build
         run: |
           cd ~
-          git clone --depth 1 --single-branch --branch equuleus https://github.com/vyos/vyos-build.git
+          git clone --depth 1 --single-branch --branch ${{ needs.map-version.outputs.vyos_branch }} https://github.com/vyos/vyos-build.git
       
       # - name: Build Image
       #   run: |
       #     cd ~/vyos-build
-      #     docker run --rm -i --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:equuleus \
+      #     docker run --rm -i --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:${{ needs.map-version.outputs.vyos_branch }} \
       #      /bin/bash -c "./configure --architecture amd64 --build-by 'vyos-autobuild@dustyservers.com' && sudo make iso"
 
       # - name: Create Release
@@ -96,3 +103,10 @@ jobs:
       #     name: "Autobuild: ${{ needs.check-release.outputs.curr_ver }}"
       #     files: |
       #       ../../../vyos-build/build/*.iso
+
+      - name: Update last built version
+        run: |
+          echo ${{ needs.check-release.outputs.curr_ver }} > release.txt
+          git add release.txt
+          git commit -m "Update latest built version"
+          git push
