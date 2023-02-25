@@ -52,8 +52,11 @@ jobs:
     needs: check-release
     steps:
       - name: Map 1.3.x to equuleus
-        if: ${needs.check-release.outputs.build_new:0:2} == 1.3
+        if: contains(needs.check-release.outputs.curr_ver, "1.3.")
         run: echo "equuleus!"
+      - name: Map 1.4.x to sagitta
+        if: contains(needs.check-release.outputs.curr_ver, "1.4.")
+        run: echo "sagitta!""
 
   build-iso:
     runs-on: ubuntu-latest
