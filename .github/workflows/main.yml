@@ -50,23 +50,28 @@ jobs:
   map-version:
     runs-on: ubuntu-latest
     needs: check-release
+    outputs:
+      vyos_branch: ${{ steps.set_output.outputs.branch_to_build }}
     steps:
       - name: Map 1.3.x to equuleus
         if: startsWith(needs.check-release.outputs.curr_ver, '1.3.')
-        run: echo "equuleus!"
+        run: echo "equuleus" > $BRANCH_TO_BUILD
       - name: Map 1.4.x to sagitta
         if: startsWith(needs.check-release.outputs.curr_ver, '1.4.')
-        run: echo "sagitta!""
+        run: echo "sagitta" > $BRANCH_TO_BUILD
+      - name: Set output variable
+        id: set_output
+        echo "branch_to_build=$BRANCH_TO_BUILD" >> $GITHUB_OUTPUT
 
   build-iso:
     runs-on: ubuntu-latest
-    needs: check-release
+    needs: [check-release, map-version]
     permissions:
       contents: write
     if: needs.check-release.outputs.build_new == 'true'
     steps:
       - name: Initialise
-        run: echo "I will build version ${{ needs.check-release.outputs.curr_ver }}"
+        run: echo "I will build version ${{ needs.check-release.outputs.curr_ver }} from the ${{ needs.map-version.outputs.branch_to_build }} branch"
       
       - name: Clone vyos/vyos-build
         run: |
