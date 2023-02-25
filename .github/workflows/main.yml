@@ -55,14 +55,10 @@ jobs:
     steps:
       - name: Map 1.3.x to equuleus
         if: startsWith(needs.check-release.outputs.curr_ver, '1.3.')
-        run: |
-          BRANCH_TO_BUILD="equuleus"
-          echo "::set-env name=BRANCH_TO_BUILD::$BRANCH_TO_BUILD"
+        run: echo "BRANCH_TO_BUILD=equuleus" >> $GITHUB_ENV
       - name: Map 1.4.x to sagitta
         if: startsWith(needs.check-release.outputs.curr_ver, '1.4.')
-        run: |
-          BRANCH_TO_BUILD="sagitta"
-          echo "::set-env name=BRANCH_TO_BUILD::$BRANCH_TO_BUILD"
+        run: echo "BRANCH_TO_BUILD=sagitta" >> $GITHUB_ENV
       - name: Set output variable
         id: set_output
         run: |
