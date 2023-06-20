@@ -14,6 +14,5 @@ It works as follows:
 - The builds are completely untested at the point of release.
 - The automation may break if VyOS change how they name parts of their official build repo. If that happens I will endeavour to update this repo.
 - Manual mappings are required from version numbers to branch names (i.e. 1.3.x = equuleum). This is because while VyOS tag LTS version numbers in their GitHub repo, they advise building from the latest branch commits and Docker image, which will still provide the stable/LTS version, but with latest bugfixes etc included.
-- So far, this repo hasn't existed while VyOS have done an LTS release, so I don't have the full automation chain tested. Some manual intervention may be needed if the next release fails.
 
 Pull requests are welcome!
