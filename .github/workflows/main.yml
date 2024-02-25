@@ -93,21 +93,14 @@ jobs:
           cd ~
           git clone --depth 1 --single-branch --branch ${{ needs.map-version.outputs.vyos_branch }} https://github.com/vyos/vyos-build.git
       
-      - name: Build Image - crux
-        if: ${{ needs.map-version.outputs.vyos_branch == 'crux' }}
+      - name: Build Image - legacy script
+        if: ${{ needs.map-version.outputs.vyos_branch == 'equuleus' || needs.map-version.outputs.vyos_branch == 'crux' }}
         run: |
           cd ~/vyos-build
           docker run --rm -i --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:${{ needs.map-version.outputs.vyos_branch }} \
            /bin/bash -c "./configure --architecture amd64 --build-by 'vyos-autobuild@dustyservers.com' && sudo make iso"
 
-      - name: Build Image - equuleus
-        if: ${{ needs.map-version.outputs.vyos_branch == 'equuleus' }}
-        run: |
-          cd ~/vyos-build
-          docker run --rm -i --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:${{ needs.map-version.outputs.vyos_branch }} \
-           /bin/bash -c "./configure --architecture amd64 --build-by 'vyos-autobuild@dustyservers.com' && sudo make iso"
-
-      - name: Build Image - current
+      - name: Build Image - current script
         if: ${{ needs.map-version.outputs.vyos_branch != 'equuleus' && needs.map-version.outputs.vyos_branch != 'crux' }}
         run: |
           cd ~/vyos-build
