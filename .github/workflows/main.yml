@@ -112,7 +112,7 @@ jobs:
         run: |
           cd ~/vyos-build
           docker run --rm -i --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:${{ needs.map-version.outputs.vyos_branch }} \
-           /bin/bash -c "sudo make clean && sudo ./build-vyos-image iso --architecture amd64 --build-by 'vyos-autobuild@dustyservers.com'"
+           /bin/bash -c "ls -lh && sudo make clean && sudo ./build-vyos-image iso --architecture amd64 --build-by 'vyos-autobuild@dustyservers.com'"
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
