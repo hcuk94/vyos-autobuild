@@ -98,14 +98,14 @@ jobs:
         run: |
           cd ~/vyos-build
           docker run --rm -i --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:${{ needs.map-version.outputs.vyos_branch }} \
-           /bin/bash -c "./configure --architecture amd64 --build-by 'vyos-autobuild@dustyservers.com' && sudo make iso"
+           /bin/bash -c "./configure --architecture amd64 --build-by 'vyos-autobuild@dustyservers.com' --build-type release --version ${{ needs.check-release.outputs.curr_ver }} && sudo make iso"
 
       - name: Build Image - current script
         if: ${{ needs.map-version.outputs.vyos_branch != 'equuleus' && needs.map-version.outputs.vyos_branch != 'crux' }}
         run: |
           cd ~/vyos-build
           docker run --rm -i --privileged -v $(pwd):/vyos -w /vyos vyos/vyos-build:${{ needs.map-version.outputs.vyos_branch }} \
-           /bin/bash -c "sudo make && sudo ./build-vyos-image iso --architecture amd64 --build-by 'vyos-autobuild@dustyservers.com'"
+           /bin/bash -c "sudo make && sudo ./build-vyos-image iso --architecture amd64 --build-by 'vyos-autobuild@dustyservers.com' --build-type release --version ${{ needs.check-release.outputs.curr_ver }}"
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
